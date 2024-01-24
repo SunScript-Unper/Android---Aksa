@@ -55,4 +55,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("com.github.wonderkiln:blurkit-android:1.1.1")
+    implementation("com.github.Dimezis:BlurView:version-2.0.3")
+
 }
