@@ -6,74 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".ScanActivity">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imv_imageprocess"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:src="@drawable/background_pattern"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <ImageView
         android:id="@+id/imv_imageprocess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_biru"
+        android:src="@drawable/background_pattern"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/box_sunda"
+        android:id="@+id/tv_image"
+        android:layout_width="224dp"
+        android:layout_height="224dp"
+        android:layout_marginTop="24dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/box_sunda2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/box_sunda2"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="55dp"
-        android:layout_marginBottom="35dp"
-        android:src="@drawable/box_sunda"
-        app:layout_constraintBottom_toTopOf="@+id/materialCardView2"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/box_sunda"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
 
     <com.google.android.material.card.MaterialCardView
@@ -214,6 +166,7 @@
 
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_process"
                     android:layout_width="0dp"
                     android:layout_height="52dp"
                     android:layout_marginTop="15dp"
