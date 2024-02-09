@@ -15,6 +15,7 @@ import com.example.aksa.pref.ThemePreferences
 import com.example.aksa.pref.ThemeViewModel
 import com.example.aksa.pref.ThemeViewModelFactory
 import com.example.aksa.pref.dataStore
+import com.example.aksa.pref.user.UserPreference
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var themeViewModel : ThemeViewModel
+    private lateinit var userPreference: UserPreference
 
 
     private val iconMap = mapOf(
@@ -34,6 +36,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userPreference = UserPreference.getInstance(this)
+
+        val username = userPreference.getName()
+        binding.toolbar.title = username
 
         val navView: BottomNavigationView = binding.bottomNavigationView
         val navController = findNavController(R.id.nav_host_fragment)

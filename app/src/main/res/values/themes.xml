@@ -25,5 +25,9 @@
         <item name="colorOnSurfaceVariant">@color/primary</item>
     </style>
 
+    <style name="ColorText" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+
     <style name="Theme.Aksa" parent="Base.Theme.Aksa" />
 </resources>

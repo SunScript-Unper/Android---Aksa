@@ -13,11 +13,19 @@ import android.text.style.ClickableSpan
 import android.text.style.StyleSpan
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProvider
 import com.example.aksa.databinding.ActivityLoginBinding
+import com.example.aksa.model.LoginViewModel
+import com.example.aksa.model.ViewModelFactory
+import com.example.aksa.pref.user.UserPreference
+import com.example.aksa.response.LoginRequest
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var userPreference: UserPreference
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,13 +33,37 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        loginViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this)).get(LoginViewModel::class.java)
+        userPreference = UserPreference.getInstance(this)
+
         spanCustom()
 
         binding.btnSignin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            val email = binding.edtEmail.text.toString()
+            val password = binding.edtPassword.text.toString()
+
+            loginViewModel.loading.observe(this) { isLoading ->
+                binding.loadingLogin!!.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }
+
+            loginViewModel.login(LoginRequest(email, password))
+            loginViewModel.login.observe(this) {response ->
+                if(response != null) {
+                    val id = response.loginResult?.id
+                    val emailuser = response.loginResult?.email
+                    val name = response.loginResult?.name
+                    val token = response.loginResult?.token
+
+                    if (id != null && emailuser != null && name != null && token != null) {
+                        userPreference.saveLoginSession(id, name, emailuser, token)
+                    }
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
         }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)

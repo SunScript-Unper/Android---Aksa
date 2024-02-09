@@ -11,17 +11,20 @@ import com.example.aksa.pref.ThemePreferences
 import com.example.aksa.pref.ThemeViewModel
 import com.example.aksa.pref.ThemeViewModelFactory
 import com.example.aksa.pref.dataStore
+import com.example.aksa.pref.user.UserPreference
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
     private lateinit var themeViewModel : ThemeViewModel
+    private lateinit var userPreference: UserPreference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        userPreference = UserPreference.getInstance(this)
         val pref = ThemePreferences.getInstance(this@SplashScreenActivity.dataStore)
         themeViewModel = ViewModelProvider(this, ThemeViewModelFactory(pref))[ThemeViewModel::class.java]
 
@@ -35,10 +38,19 @@ class SplashScreenActivity : AppCompatActivity() {
             )
         }
 
+
+
         Handler().postDelayed({
-            val intent = android.content.Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+
+            if (userPreference.isLoggedIn()) {
+                val intent = android.content.Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = android.content.Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }, 3000)
     }
 }

@@ -2,6 +2,7 @@ package com.example.aksa
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -9,27 +10,31 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.cardview.widget.CardView
+import androidx.lifecycle.ViewModelProvider
+import com.example.aksa.database.favorite.FavoriteEntity
+import com.example.aksa.database.favorite.FavoriteFactory
+import com.example.aksa.database.favorite.FavoriteViewModel
 import com.example.aksa.databinding.ActivityScanBinding
 import com.example.aksa.ml.Model
-import com.example.aksa.utils.createCustomTempFile
+import com.example.aksa.model.PredictionFactory
+import com.example.aksa.model.PredictionViewModel
 import com.example.aksa.utils.getImageUri
+import com.example.aksa.utils.reduceFileImage
 import com.example.aksa.utils.uriToFile
 //import com.example.aksa.utils.reduceFileImage
 import com.google.android.material.card.MaterialCardView
-import eightbitlab.com.blurview.RenderEffectBlur
 import eightbitlab.com.blurview.RenderScriptBlur
-import io.alterac.blurkit.BlurKit
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -37,57 +42,96 @@ class ScanActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityScanBinding
     private lateinit var tvImage: ImageView
-    private lateinit var btnCamera : MaterialCardView
     private lateinit var btnGallery : MaterialCardView
     private lateinit var btnProcess : MaterialCardView
+    private lateinit var favoriteViewModel: FavoriteViewModel
+    private lateinit var predictionViewModel: PredictionViewModel
 
     private var currentImageUri: Uri? = null
+    private var newImageUri : Uri? = null
 
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScanBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         animation()
-
+        favoriteViewModel = ViewModelProvider(this, FavoriteFactory.getInstance(this))[FavoriteViewModel::class.java]
+        predictionViewModel = ViewModelProvider(this, PredictionFactory.getInstance(this))[PredictionViewModel::class.java]
 
         tvImage = binding.imvImageprocess
-        btnCamera = binding.btnCapture
         btnGallery = binding.btnAddpicture
         btnProcess = binding.btnProcess
-
-
-        btnCamera.setOnClickListener {
-            startCamera()
-        }
 
         btnGallery.setOnClickListener {
             startGallery()
         }
 
         btnProcess.setOnClickListener {
-            imageProcess()
+            prediction()
         }
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun prediction(){
 
-    private fun startCamera(){
-        currentImageUri = getImageUri(this)
-        launchCamera.launch(currentImageUri)
-    }
-
-    private val launchCamera = registerForActivityResult(
-        ActivityResultContracts.TakePicture()
-    ){ isSucces ->
-        if (isSucces){
-            showImage()
+        predictionViewModel.isLoading.observe(this){loading ->
+            binding.loadingScan.visibility = if (loading) View.VISIBLE else View.GONE
         }
+        currentImageUri?.let {
+            val gambar = uriToFile(it, this)
+            val reduceFile = reduceFileImage(gambar)
+
+            val requestImageFile = gambar.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "file",
+                reduceFile.name,
+                requestImageFile
+            )
+
+            predictionViewModel.predict(imageMultipart)
+        }
+
+        predictionViewModel.prediction.observe(this) { prediction ->
+            val result = prediction.prediction.toString()
+            if (prediction != null) {
+                val dialog = AlertDialog.Builder(this)
+                dialog.setTitle("Hasil")
+                dialog.setMessage("Aksara $result, Apakah ingin ditambahkan ke favorite?")
+                dialog.setPositiveButton("OK") {_,_ ->
+                    currentImageUri?.let {
+                        val imageFile = uriToFile(it, this)
+                        favoriteViewModel.insertHuruf(FavoriteEntity(huruf = result, image = imageFile.path))
+                    }
+
+                    favoriteViewModel.favorite.observe(this){
+                        if(it == true){
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+                }
+                dialog.setNegativeButton("Tidak") {_,_ ->
+
+                }
+
+                val alert = dialog.create()
+                alert.show()
+            }
+        }
+
     }
 
     private fun startGallery() {
-        launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        pickImageLauncher.launch(
+            PickVisualMediaRequest(
+                ActivityResultContracts.PickVisualMedia.ImageOnly
+            )
+        )
     }
 
     private val launcherGallery = registerForActivityResult(
@@ -101,74 +145,24 @@ class ScanActivity : AppCompatActivity() {
         }
     }
 
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            // Gambar telah dipilih, lakukan sesuatu dengan URI gambar
+            // Contoh: menampilkan gambar ke ImageView
+            currentImageUri = uri
+            newImageUri = uri
+            showImage()
+        }
+    }
     private fun showImage() {
         currentImageUri?.let {
             Log.d("Image URI", "showImage: $it")
             tvImage.setImageURI(it)
+            binding.tvImageBox.setImageURI(it)
+            binding.tvImageBox2.setImageURI(it)
+            binding.tvImageBox3.setImageURI(it)
         }
     }
-
-    private fun imageProcess(){
-        val model = Model.newInstance(this)
-        val imageUri = currentImageUri ?: return
-        val inputImage = BitmapFactory.decodeStream(contentResolver.openInputStream(imageUri))
-
-        val resizedImage = Bitmap.createScaledBitmap(inputImage, 224, 224, true)
-
-        val byteBuffer = convertBitmapToByteBuffer(resizedImage)
-// Creates inputs for reference.
-        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
-        inputFeature0.loadBuffer(byteBuffer)
-
-        Log.d("Image URI", "showImage: $inputImage")
-
-// Runs model inference and gets result.
-        val outputs = model.process(inputFeature0)
-        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-
-//        tangkap index
-        val maxIndex = outputFeature0.floatArray.max()
-
-//        tangkap nama class dari index nya
-        val className = getClassNameFromIndex(maxIndex!!.toInt())
-
-
-
-        Log.d("Output", className)
-
-        val dialog = AlertDialog.Builder(this)
-        dialog.setTitle("Hasil")
-        dialog.setMessage(className)
-        dialog.setPositiveButton("OK") { dialog, _ ->
-
-        }
-        val alert = dialog.create()
-        alert.show()
-
-
-// Releases model resources if no longer used.
-        model.close()
-
-    }
-
-    private fun getClassNameFromIndex(index: Int): String {
-        val classNames = arrayOf("Aksara A", "Aksara Ka", "Aksara Sa", "Aksara ba")
-        return classNames[index]
-    }
-
-    fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
-        val byteBuffer = ByteBuffer.allocateDirect(4 * 224 * 224 * 3)
-            .order(ByteOrder.nativeOrder())
-        bitmap.getPixels(IntArray(224 * 224), 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
-        for (pixel in 0 until 224 * 224) {
-            val value = bitmap.getPixel(pixel % 224, pixel / 224)
-            byteBuffer.putFloat(((value shr 16 and 0xFF) - 127.5f) / 127.5f)
-            byteBuffer.putFloat(((value shr 8 and 0xFF) - 127.5f) / 127.5f)
-            byteBuffer.putFloat(((value and 0xFF) - 127.5f) / 127.5f)
-        }
-        return byteBuffer
-    }
-
 
 
     private fun animation () {
