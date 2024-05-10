@@ -2,9 +2,11 @@ package com.example.aksa
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.aksa.adapter.ArticleAdapter
+import com.example.aksa.adapter.AllKnowledgeAdapter
+import com.example.aksa.adapter.ArticleKnowledge
 import com.example.aksa.database.article.Articles
 import com.example.aksa.databinding.ActivityAllArticleBinding
+import com.example.aksa.utils.Knowledge
 
 class AllArticleActivity : AppCompatActivity() {
 
@@ -14,11 +16,11 @@ class AllArticleActivity : AppCompatActivity() {
         binding = ActivityAllArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = ArticleAdapter()
+        val adapter = AllKnowledgeAdapter()
         val recyclerView = binding.allRvArticle
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
 
-        adapter.submitList(Articles.article)
+        adapter.submitList(Knowledge.knowledge)
     }
 }

@@ -23,5 +23,11 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile"/>
 
+    <fragment
+        android:id="@+id/navigation_tes"
+        android:name="com.example.aksa.fragment.Tes.TesFragment"
+        android:label="Tes"
+        tools:layout="@layout/fragment_tes"/>
+
 
 </navigation>

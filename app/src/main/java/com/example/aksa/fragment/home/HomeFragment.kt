@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aksa.AllArticleActivity
-import com.example.aksa.LoginActivity
-import com.example.aksa.R
 import com.example.aksa.ScanActivity
-import com.example.aksa.adapter.ArticleAdapter
+import com.example.aksa.adapter.ArticleKnowledge
 import com.example.aksa.database.article.Articles
 import com.example.aksa.databinding.FragmentHomeBinding
 import com.example.aksa.pref.user.UserPreference
+import com.example.aksa.utils.Knowledge
 
 
 class HomeFragment : Fragment() {
@@ -37,13 +35,8 @@ class HomeFragment : Fragment() {
 
 
         binding.btnScan.setOnClickListener {
-            if (userPreference.isLoggedIn()) {
-                val intent = Intent(activity, ScanActivity::class.java)
-                startActivity(intent)
-            } else {
-                val intent = Intent(activity, LoginActivity::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(activity, ScanActivity::class.java)
+            startActivity(intent)
         }
 
         binding.tvSeeAll.setOnClickListener {
@@ -51,12 +44,21 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-        val adapter = ArticleAdapter()
-        val recyclerView = binding.rvArticle
-        recyclerView.adapter = adapter
-        recyclerView.setHasFixedSize(true)
+        val adapter = ArticleKnowledge()
+        val recyclerView = binding.rvItemKnowledge
+        if (recyclerView != null) {
+            recyclerView.adapter = adapter
+            recyclerView.setHasFixedSize(true)
+        }
 
-        adapter.submitList(Articles.article)
+//        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+//            requireContext(),
+//            androidx.recyclerview.widget.LinearLayoutManager.VERTICAL,
+//            false
+//        )
+
+
+        adapter.submitList(Knowledge.knowledge)
 
 
         return binding.root

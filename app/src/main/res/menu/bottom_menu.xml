@@ -7,13 +7,18 @@
         android:icon="@drawable/fluent_home_filled" />
 
     <item
+        android:id="@+id/test"
+        android:title="Tes"
+        android:icon="@drawable/task_outline"/>
+
+    <item
         android:id="@+id/favorite"
         android:title="Favorite"
         android:icon="@drawable/iconoir_heart_outline" />
 
     <item
-        android:id="@+id/profile"
-        android:title="Profile"
+        android:id="@+id/nilai"
+        android:title="Nilai"
         android:icon="@drawable/fluent_person_outline" />
 
 </menu>

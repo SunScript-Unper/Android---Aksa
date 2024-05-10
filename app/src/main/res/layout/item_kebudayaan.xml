@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardItem"
+    android:layout_width="match_parent"
+    android:layout_height="216dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_gravity="center"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    app:cardPreventCornerOverlap="false"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardView_mountain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_kebudayaan"
+            android:layout_width="match_parent"
+            android:layout_height="126dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars"/>
+
+        <TextView
+            android:id="@+id/tv_title_kebudayaan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/sf_pro_text_medium"
+            android:maxLines="1"
+            android:text="Title"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_kebudayaan" />
+
+        <TextView
+            android:id="@+id/tv_desc_kebudayaan"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text="deskription"
+            android:textSize="10sp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:fontFamily="@font/sf_pro_text_medium"
+            app:layout_constraintEnd_toEndOf="@+id/tv_title_kebudayaan"
+            app:layout_constraintStart_toStartOf="@+id/tv_title_kebudayaan"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_kebudayaan" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
+
+    

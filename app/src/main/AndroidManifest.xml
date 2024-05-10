@@ -16,10 +16,45 @@
         android:theme="@style/Theme.Aksa"
         tools:targetApi="31">
         <activity
-            android:name=".AllArticleActivity"
+            android:name=".list.ListMakananActivity"
             android:exported="false" />
         <activity
-            android:name=".AllArticle"
+            android:name=".NgagalenaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SwaraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".list.ListAksaraSundaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailMitosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".list.ListMitosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailPupuhActivity"
+            android:exported="false" />
+        <activity
+            android:name=".list.ListPupuhActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailCultureActivity"
+            android:exported="false"
+            android:label="@string/title_activity_detail_culture"
+            android:theme="@style/Theme.Aksa.NoActionBar" />
+        <activity
+            android:name=".DetailKebudayaanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".list.ListKebudayaanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ui.AddKebudayaanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AllArticleActivity"
             android:exported="false" />
         <activity
             android:name=".DetailArticleActivity"

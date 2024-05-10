@@ -13,7 +13,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:text="Scan aksara sunda menjadi huruf latin"
+        android:text="Ubah aksara sunda menjadi huruf latin"
         android:textSize="28sp"
         android:fontFamily="@font/sf_pro_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/sf_pro_text_medium"
-        android:text="Article"
+        android:text="Knowledge"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/btn_scan"
         app:layout_constraintTop_toBottomOf="@+id/btn_scan" />
@@ -94,16 +94,15 @@
         app:layout_constraintTop_toTopOf="@+id/tv_article" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_article"
+        android:id="@+id/rv_itemKnowledge"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_article"
-        tools:listitem="@layout/item_article" />
+        tools:listitem="@layout/item_knowledge" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

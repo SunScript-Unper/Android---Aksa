@@ -4,8 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -28,12 +32,14 @@ class MainActivity : AppCompatActivity() {
 
     private val iconMap = mapOf(
         R.id.home to Pair(R.drawable.fluent_home_outline, R.drawable.fluent_home_filled),
+        R.id.test to Pair(R.drawable.task_outline, R.drawable.task_fill),
         R.id.favorite to Pair(R.drawable.iconoir_heart_outline, R.drawable.iconoir_heart_fill),
-        R.id.profile to Pair(R.drawable.fluent_person_outline, R.drawable.fluent_person_filled),
+        R.id.nilai to Pair(R.drawable.fluent_person_outline, R.drawable.fluent_person_filled),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -56,12 +62,18 @@ class MainActivity : AppCompatActivity() {
                     updateIcon(menuItem.itemId)
                     true
                 }
+                R.id.test -> {
+                    navController.navigate(R.id.navigation_tes)
+                    updateIcon(menuItem.itemId)
+                    true
+                }
+
                 R.id.favorite -> {
                     navController.navigate(R.id.navigation_favorite)
                     updateIcon(menuItem.itemId)
                     true
                 }
-                R.id.profile -> {
+                R.id.nilai -> {
                     navController.navigate(R.id.navigation_profile)
                     updateIcon(menuItem.itemId)
                     true
