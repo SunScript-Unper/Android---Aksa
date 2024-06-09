@@ -14,7 +14,7 @@ class ApiConfigMachine {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://aksara-ml-iavhdtohsa-et.a.run.app/")
+                .baseUrl("https://aksa-api-ml-d2mhxwtmqa-as.a.run.app/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

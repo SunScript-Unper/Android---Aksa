@@ -9,5 +9,4 @@ data class FavoriteEntity (
     val id: Long = 0,
     val huruf: String,
     val image : String
-
 )

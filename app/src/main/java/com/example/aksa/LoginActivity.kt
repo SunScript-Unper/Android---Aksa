@@ -19,6 +19,7 @@ import com.example.aksa.databinding.ActivityLoginBinding
 import com.example.aksa.model.LoginViewModel
 import com.example.aksa.model.ViewModelFactory
 import com.example.aksa.pref.user.UserPreference
+import com.example.aksa.pref.user.dataStore
 import com.example.aksa.response.LoginRequest
 
 class LoginActivity : AppCompatActivity() {
@@ -34,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loginViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this)).get(LoginViewModel::class.java)
-        userPreference = UserPreference.getInstance(this)
+        userPreference = UserPreference.getInstance(this.dataStore)
 
         spanCustom()
 
@@ -55,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
                     val token = response.loginResult?.token
 
                     if (id != null && emailuser != null && name != null && token != null) {
-                        userPreference.saveLoginSession(id, name, emailuser, token)
+
                     }
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)

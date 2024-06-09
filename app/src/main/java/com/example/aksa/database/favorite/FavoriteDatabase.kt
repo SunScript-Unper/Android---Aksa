@@ -27,7 +27,5 @@ abstract class FavoriteDatabase : RoomDatabase() {
                 instance
             }
         }
-
-
     }
 }

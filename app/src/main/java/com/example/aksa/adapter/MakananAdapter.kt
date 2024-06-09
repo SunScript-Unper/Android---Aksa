@@ -17,7 +17,8 @@ class MakananAdapter: ListAdapter<Makanan, MakananAdapter.MakananViewHolder>(DIF
         parent: ViewGroup,
         viewType: Int
     ): MakananAdapter.MakananViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_makanan, parent, false)
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_makanan, parent, false)
         return MakananViewHolder(view)
     }
 
@@ -27,8 +28,8 @@ class MakananAdapter: ListAdapter<Makanan, MakananAdapter.MakananViewHolder>(DIF
         holder.image.setImageResource(makanan.img)
     }
 
-    class MakananViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val text : TextView = itemView.findViewById(R.id.nama_makanan)
+    class MakananViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val text: TextView = itemView.findViewById(R.id.nama_makanan)
         val image: ImageView = itemView.findViewById(R.id.image_makanan)
 
     }
@@ -43,4 +44,5 @@ class MakananAdapter: ListAdapter<Makanan, MakananAdapter.MakananViewHolder>(DIF
                 return oldItem == newItem
             }
         }
+    }
 }

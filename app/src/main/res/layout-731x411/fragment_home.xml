@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/sf_pro_text_medium"
-        android:text="Scan aksara sunda menjadi huruf latin"
+        android:text="Ubah aksara sunda menjadi huruf latin"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

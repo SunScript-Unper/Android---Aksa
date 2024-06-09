@@ -12,6 +12,9 @@ import com.example.aksa.pref.ThemeViewModel
 import com.example.aksa.pref.ThemeViewModelFactory
 import com.example.aksa.pref.dataStore
 import com.example.aksa.pref.user.UserPreference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
@@ -23,6 +26,8 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userPreference = UserPreference.getInstance(this.dataStore)
 
         val pref = ThemePreferences.getInstance(this@SplashScreenActivity.dataStore)
         themeViewModel = ViewModelProvider(this, ThemeViewModelFactory(pref))[ThemeViewModel::class.java]
@@ -39,10 +44,28 @@ class SplashScreenActivity : AppCompatActivity() {
 
 
 
+        // Handler().postDelayed({
+        //     val intent = android.content.Intent(this, MainActivity::class.java)
+        //     startActivity(intent)
+        //     finish()
+        // }, 3000)
+
+
         Handler().postDelayed({
-            val intent = android.content.Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+//            CoroutineScope(Dispatchers.Main).launch {
+//                val isLoggedIn = userPreference.isUserLoggedIn()
+//                if (isLoggedIn) {
+//                    // Jika pengguna sudah login, navigasi ke MainActivity
+//                    val intent = android.content.Intent(this@SplashScreenActivity, MainActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
+//                } else {
+//                    // Jika pengguna belum login, navigasi ke halaman login atau halaman lain yang sesuai
+                    val intent = android.content.Intent(this@SplashScreenActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+//                }
+//            }
         }, 3000)
     }
 }

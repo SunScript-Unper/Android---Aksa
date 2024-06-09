@@ -57,8 +57,16 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("androidx.activity:activity:1.8.0")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:4.4.0")
+    testImplementation("org.mockito:mockito-inline:4.4.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.5.21")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
+
+
 
     //    DATABASE
     implementation("androidx.room:room-runtime:2.6.1")
@@ -92,5 +100,10 @@ dependencies {
 
     implementation("com.github.wonderkiln:blurkit-android:1.1.1")
     implementation("com.github.Dimezis:BlurView:version-2.0.3")
+
+    val camerax_version = "1.2.3"
+    implementation("androidx.camera:camera-camera2:$camerax_version")
+    implementation("androidx.camera:camera-lifecycle:$camerax_version")
+    implementation("androidx.camera:camera-view:$camerax_version")
 
 }

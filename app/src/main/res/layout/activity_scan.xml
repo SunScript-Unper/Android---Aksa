@@ -91,7 +91,7 @@
                     android:layout_marginStart="70dp"
                     android:layout_marginEnd="70dp"
                     android:fontFamily="@font/sf_pro_text_medium"
-                    android:text="Scan aksara sunda menjadi huruf latin"
+                    android:text="Ubah aksara sunda menjadi huruf latin"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="22sp"
@@ -115,18 +115,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btn_addpicture"
+                    android:id="@+id/btn_camera"
                     android:layout_width="0dp"
                     android:layout_height="44dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:backgroundTint="@android:color/transparent"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_addpicture"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView6"
                     app:strokeColor="@color/primary"
@@ -140,7 +139,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/sf_pro_text_medium"
-                            android:text="Add Picture"
+                            android:text="Kamera"
                             android:textColor="@color/white"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -152,6 +151,41 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_addpicture"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:backgroundTint="@android:color/transparent"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btn_camera"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6"
+                    app:strokeColor="@color/primary"
+                    app:strokeWidth="2dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_pro_text_medium"
+                            android:text="Galeri"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btn_process"
@@ -161,7 +195,7 @@
                     android:backgroundTint="@color/primary"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintEnd_toEndOf="@+id/btn_addpicture"
-                    app:layout_constraintStart_toStartOf="@+id/btn_addpicture"
+                    app:layout_constraintStart_toStartOf="@+id/btn_camera"
                     app:layout_constraintTop_toBottomOf="@+id/btn_addpicture"
                     app:strokeWidth="0dp">
 
@@ -173,7 +207,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/sf_pro_text_medium"
-                            android:text="Process"
+                            android:text="Proses"
                             android:textColor="@color/white"
                             android:textSize="18sp"
                             app:layout_constraintBottom_toBottomOf="parent"

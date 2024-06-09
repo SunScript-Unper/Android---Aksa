@@ -19,6 +19,6 @@
     <item
         android:id="@+id/nilai"
         android:title="Nilai"
-        android:icon="@drawable/fluent_person_outline" />
+        android:icon="@drawable/nilai_line" />
 
 </menu>

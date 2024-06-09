@@ -1,62 +1,68 @@
 package com.example.aksa.pref.user
 
 import android.content.Context
-import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.first
 
-class UserPreference(context: Context) {
 
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-    private val editor: SharedPreferences.Editor = sharedPreferences.edit()
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_preferences")
+class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
+
+    suspend fun saveName(user: User) {
+        dataStore.edit { preferences ->
+            preferences[USERNAME_KEY] = user.name
+        }
+    }
+
+    suspend fun saveNamaKuis(namaKuis: NamaKuis){
+        dataStore.edit { preferences ->
+            preferences[NAMA_KUIS] = namaKuis.namaKuis
+        }
+    }
+
+
+    suspend fun deleteNamaKuis(){
+        dataStore.edit { preferences ->
+            preferences[NAMA_KUIS] = ""
+        }
+    }
+
+    suspend fun getNamaKuis(): String? {
+        val preferences = dataStore.data.first()
+        return preferences[NAMA_KUIS]
+    }
+
+    suspend fun isUserLoggedIn(): Boolean {
+        val preferences = dataStore.data.first()
+        val userId = preferences[USERNAME_KEY]
+        return !userId.isNullOrEmpty()
+    }
+
+    suspend fun getName(): String? {
+        val preferences = dataStore.data.first()
+        return preferences[USERNAME_KEY]
+    }
+
+
+
 
     companion object {
-        private const val ID = "id"
-        private const val TOKEN = "token"
-        private const val NAME = "name"
-        private const val EMAIL = "email"
-        private const val PREF_NAME = "MyPreferences"
-        private var instance: UserPreference? = null
+        @Volatile
+        private var INSTANCE: UserPreference? = null
+        private val USERNAME_KEY = stringPreferencesKey("name")
+        private val NAMA_KUIS = stringPreferencesKey("kuis")
 
-        fun getInstance(context: Context): UserPreference {
-            if (instance == null) {
-                instance = UserPreference(context.applicationContext)
+        fun getInstance(dataStore: DataStore<Preferences>): UserPreference {
+            return INSTANCE ?: synchronized(this) {
+                val instance = UserPreference(dataStore)
+                INSTANCE = instance
+                instance
             }
-            return instance as UserPreference
         }
-
     }
-
-    fun saveLoginSession(id: Int, name: String, email: String, token: String) {
-        editor.putInt(ID, id)
-        editor.putString(NAME, name)
-        editor.putString(EMAIL, email)
-        editor.putString(TOKEN, token)
-        editor.apply()
-    }
-
-    fun isLoggedIn(): Boolean {
-        return sharedPreferences.contains(TOKEN)
-    }
-
-    fun getUserId(): Int {
-        return sharedPreferences.getInt(ID, -1)
-    }
-
-    fun getName(): String {
-        return sharedPreferences.getString(NAME, "")!!
-    }
-
-    fun getUserToken(): String {
-        return sharedPreferences.getString(TOKEN, "")!!
-    }
-
-    fun getUserEmail(): String {
-        return sharedPreferences.getString(EMAIL, "")!!
-    }
-
-    fun logout() {
-        editor.clear()
-        editor.apply()
-    }
-
 
 }

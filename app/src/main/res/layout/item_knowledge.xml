@@ -37,7 +37,7 @@
             android:maxLines="1"
             android:text="Title Knowledge"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:transitionName="article"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_image_knowledge"

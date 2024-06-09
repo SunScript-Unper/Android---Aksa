@@ -11,6 +11,7 @@ import com.example.aksa.ScanActivity
 import com.example.aksa.adapter.ArticleKnowledge
 import com.example.aksa.database.article.Articles
 import com.example.aksa.databinding.FragmentHomeBinding
+import com.example.aksa.pref.dataStore
 import com.example.aksa.pref.user.UserPreference
 import com.example.aksa.utils.Knowledge
 
@@ -31,7 +32,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        userPreference = UserPreference.getInstance(requireContext())
+        userPreference = UserPreference.getInstance(requireContext().dataStore)
 
 
         binding.btnScan.setOnClickListener {

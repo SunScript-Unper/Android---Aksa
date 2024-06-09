@@ -44,11 +44,12 @@ class ScanActivity : AppCompatActivity() {
     private lateinit var tvImage: ImageView
     private lateinit var btnGallery : MaterialCardView
     private lateinit var btnProcess : MaterialCardView
+    private lateinit var btnCamera : MaterialCardView
     private lateinit var favoriteViewModel: FavoriteViewModel
     private lateinit var predictionViewModel: PredictionViewModel
 
     private var currentImageUri: Uri? = null
-    private var newImageUri : Uri? = null
+
 
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -64,13 +65,29 @@ class ScanActivity : AppCompatActivity() {
         tvImage = binding.imvImageprocess
         btnGallery = binding.btnAddpicture
         btnProcess = binding.btnProcess
+        btnCamera = binding.btnCamera
+
+        btnCamera.setOnClickListener {
+            openCamera()
+        }
 
         btnGallery.setOnClickListener {
             startGallery()
         }
 
         btnProcess.setOnClickListener {
-            prediction()
+            if (currentImageUri == null) {
+                val alertDialog = AlertDialog.Builder(this)
+                    .setTitle("Gambar kosong")
+                    .setMessage("Silahkan pilih gambar terlebih dahulu")
+                    .setPositiveButton("OK") { _, _ ->
+
+                    }
+                    val build = alertDialog.create()
+                    build.show()
+            } else {
+                prediction()
+            }
         }
 
     }
@@ -134,23 +151,25 @@ class ScanActivity : AppCompatActivity() {
         )
     }
 
-    private val launcherGallery = registerForActivityResult(
-        ActivityResultContracts.PickVisualMedia()
-    ) { uri: Uri? ->
-        if (uri != null) {
-            currentImageUri = uri
+    private fun openCamera() {
+        currentImageUri = getImageUri(this)
+        launchCamera.launch(currentImageUri)
+    }
+
+    private val launchCamera = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { isSuccess ->
+        if (isSuccess) {
             showImage()
-        } else {
-            Log.d("Photo Picker", "No media selected")
         }
     }
+
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
             // Gambar telah dipilih, lakukan sesuatu dengan URI gambar
             // Contoh: menampilkan gambar ke ImageView
             currentImageUri = uri
-            newImageUri = uri
             showImage()
         }
     }

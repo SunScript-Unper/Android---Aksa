@@ -21,6 +21,8 @@ import com.example.aksa.pref.ThemeViewModelFactory
 import com.example.aksa.pref.dataStore
 import com.example.aksa.pref.user.UserPreference
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         R.id.home to Pair(R.drawable.fluent_home_outline, R.drawable.fluent_home_filled),
         R.id.test to Pair(R.drawable.task_outline, R.drawable.task_fill),
         R.id.favorite to Pair(R.drawable.iconoir_heart_outline, R.drawable.iconoir_heart_fill),
-        R.id.nilai to Pair(R.drawable.fluent_person_outline, R.drawable.fluent_person_filled),
+        R.id.nilai to Pair(R.drawable.nilai_line, R.drawable.nilai_fill),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,10 +45,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userPreference = UserPreference.getInstance(this)
+        userPreference = UserPreference.getInstance(this.dataStore)
 
-        val username = userPreference.getName()
-        binding.toolbar.title = username
+        CoroutineScope(Dispatchers.Main).launch {
+            val username = userPreference.getName()
+            binding.toolbar.title = username
+        }
+
 
         val navView: BottomNavigationView = binding.bottomNavigationView
         val navController = findNavController(R.id.nav_host_fragment)
